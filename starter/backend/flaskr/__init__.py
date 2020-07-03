@@ -133,7 +133,7 @@ def create_app(test_config=None):
 
         questions =
         Question.query.filter(Question.category == category_id).all()
-    current_questions = paginate_selection(request, questions)
+    current_questions = paginate_questions(request, questions)
     return jsonify({
       'success': True,
       'questions': current_questions,
