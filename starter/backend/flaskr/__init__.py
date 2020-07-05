@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_cors import CORS
 import random
 
+
 from models import setup_db, Question, Category
 
 QUESTIONS_PER_PAGE = 10
@@ -47,17 +48,17 @@ def create_app(test_config=None):
 
     @app.route('/questions', methods=['GET'])
     def get_questions():
-        questions = Question.query.order_by(Question.id).all()
-        current_questions = paginate_questions(request, questions)
-        categories = Category.query.all()
-        formatted_category = {
-         category.id: category.type for category in categories}
+        data = Question.query.order_by(Question.id).all()
+        current_questions = paginate_questions(request, data)
 
-    return jsonify({
+        categories = Category.query.all()
+
+        return jsonify({
             'success': True,
             'questions': current_questions,
-            'categories': formatted_category,
-            'total_questions': len(questions),
+            'categories': {
+                category.id: category.type for category in categories},
+            'total_questions': len(data),
             'current_category ': None
 
         })
@@ -65,11 +66,7 @@ def create_app(test_config=None):
     @app.route('/questions/<int:question_id>', methods=['DELETE'])
     def delete_question(question_id):
         try:
-            question =
-            Question.query.filter(Question.id == question_id).one_or_none()
-
-        if question is None:
-            abort(404)
+            question = Question.query.get(question_id)
 
             question.delete()
             questions = Question.query.order_by(Question.id).all()
@@ -81,26 +78,23 @@ def create_app(test_config=None):
                 'questions': current_questions,
                 'total_questions': len(Question.query.all())
             })
+        except Exception:
+            abort(422)
 
     @app.route('/questions', methods=['POST'])
     def add_question():
 
         body = request.get_json()
 
-        if not ('question' in body and 'answer' in body
-           and 'difficulty' in body
-           and 'category' in body):
-            abort(422)
-
-        new_question = body.get('question')
-        new_answer = body.get('answer')
-        new_difficulty = body.get('difficulty')
-        new_category = body.get('category')
+        add_question = body.get('question')
+        add_answer = body.get('answer')
+        add_difficulty = body.get('difficulty')
+        add_category = body.get('category')
 
         try:
-            question = Question(question=new_question, answer=new_answer,
-                                difficulty=new_difficulty,
-                                category=new_category)
+            question = Question(question=add_question, answer=add_answer,
+                                difficulty=add_difficulty,
+                                category=add_category)
             question.insert()
 
             return jsonify({
@@ -131,14 +125,14 @@ def create_app(test_config=None):
     @app.route('/categories/<int:category_id>/questions')
     def get_questions_by_category(category_id):
 
-        questions =
-        Question.query.filter(Question.category == category_id).all()
-    current_questions = paginate_questions(request, questions)
-    return jsonify({
-      'success': True,
-      'questions': current_questions,
-      'total_questions': len(Question.query.all())
-    })
+        questions = Question.query.filter(
+         Question.category == category_id).all()
+        current_questions = paginate_questions(request, questions)
+        return jsonify({
+         'success': True,
+         'questions': current_questions,
+         'total_questions': len(Question.query.all())
+         })
 
     @app.route('/quizzes', methods=['POST'])
     def get_quizzes():
@@ -160,13 +154,13 @@ def create_app(test_config=None):
                 selected.append(question.format())
             if len(selected) != 0:
                 result = random.choice(selected)
-        return jsonify({
-          'question': result
-        })
-        else:
-            return jsonify({
-             'question': False
-            })
+                return jsonify({
+                 'question': result
+                  })
+            else:
+                return jsonify({
+                 'question': False
+                  })
     except Exception:
         abort(422)
 
@@ -198,5 +192,4 @@ def create_app(test_config=None):
             "error": 500,
         }), 500
 
-
-return app
+        return app
