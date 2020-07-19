@@ -66,26 +66,163 @@ One note before you delve into your tasks: for each endpoint you are expected to
 8. Create a POST endpoint to get questions to play the quiz. This endpoint should take category and previous question parameters and return a random questions within the given category, if provided, and that is not one of the previous questions. 
 9. Create error handlers for all expected errors including 400, 404, 422 and 500. 
 
-REVIEW_COMMENT
-```
-This README is missing documentation of your endpoints. Below is an example for your endpoint to get all categories. Please use it as a reference for creating your documentation and resubmit your code. 
-
-Endpoints
-GET '/categories'
-GET ...
-POST ...
-DELETE ...
+## API Documentation
 
 GET '/categories'
 - Fetches a dictionary of categories in which the keys are the ids and the value is the corresponding string of the category
 - Request Arguments: None
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
+- Response:
+
 {'1' : "Science",
 '2' : "Art",
 '3' : "Geography",
 '4' : "History",
 '5' : "Entertainment",
 '6' : "Sports"}
+
+
+GET '/questions'
+- Fetches a paginated dictionary of questions
+- Request Arguments: None
+- Response:
+
+{
+  "categories": {
+    "1": "Science",
+    "2": "Art",
+    "3": "Geography",
+    "4": "History",
+    "5": "Entertainment",
+    "6": "Sports"
+  },
+  "current_category ": null,
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }
+      ],
+  "success": true,
+  "total_questions": 40
+}
+
+
+DELETE /questions/<question_id>
+- Request arguments: question_id:int
+- Response:
+
+{
+  "deleted": 16,
+  "questions": [
+    {
+      "answer": "Maya Angelou",
+      "category": 4,
+      "difficulty": 2,
+      "id": 5,
+      "question": "Whose autobiography is entitled 'I Know Why the Caged Bird Sings'?"
+    },
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    },
+    {
+      "answer": "Muhammad Ali",
+      "category": 4,
+      "difficulty": 1,
+      "id": 9,
+      "question": "What boxer's original name is Cassius Clay?"
+    },
+    {
+      "answer": "Uruguay",
+      "category": 6,
+      "difficulty": 4,
+      "id": 11,
+      "question": "Which country won the first ever soccer World Cup in 1930?"
+    },
+    {
+      "answer": "George Washington Carver",
+      "category": 4,
+      "difficulty": 2,
+      "id": 12,
+      "question": "Who invented Peanut Butter?"
+    }
+   
+  ],
+  "success": true,
+  "total_questions": 40
+}
+
+POST /questions Add a new question
+- Request body: {question:string, answer:string, difficulty:int, category:string}
+- Response:
+{
+  "created": 51,
+  "success": true
+}
+
+POST /questions/search
+- Request arguments: {searchTerm:string}
+- Response:
+{
+  "questions": [
+    {
+      "answer": "Mona Lisa",
+      "category": 2,
+      "difficulty": 3,
+      "id": 17,
+      "question": "La Giaconda is better known as what?"
+    }
+  ],
+  "success": true,
+  "total_questions": 42
+}
+
+GET /categories/<int:category_id>/questions
+- Request arguments: category_id:int
+- Response:
+{
+  "current_category": 5,
+  "questions": [
+    {
+      "answer": "Edward Scissorhands",
+      "category": 5,
+      "difficulty": 3,
+      "id": 6,
+      "question": "What was the title of the 1990 fantasy directed by Tim Burton about a young man with multi-bladed appendages?"
+    }
+  ],
+  "success": true,
+  "total_questions": 42
+}
+
+POST /quizzes
+- Request arguments : quiz_category and previous_questions
+- Response:
+{
+  "question": {
+    "answer": "Mona Lisa",
+    "category": 2,
+    "difficulty": 3,
+    "id": 17,
+    "question": "La Giaconda is better known as what?"
+  }
+}
+
+
 
 ```
 
