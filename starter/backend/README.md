@@ -74,12 +74,14 @@ GET '/categories'
 - Returns: An object with a single key, categories, that contains a object of id: category_string key:value pairs. 
 - Response:
 
+```
 {'1' : "Science",
 '2' : "Art",
 '3' : "Geography",
 '4' : "History",
 '5' : "Entertainment",
 '6' : "Sports"}
+```
 
 
 GET '/questions'
@@ -117,11 +119,11 @@ GET '/questions'
   "total_questions": 40
 }
 
-
+```
 DELETE /questions/<question_id>
 - Request arguments: question_id:int
 - Response:
-
+```
 {
   "deleted": 16,
   "questions": [
@@ -165,6 +167,7 @@ DELETE /questions/<question_id>
   "success": true,
   "total_questions": 40
 }
+```
 ```
 
 POST /questions Add a new question
