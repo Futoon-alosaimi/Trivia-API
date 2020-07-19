@@ -86,7 +86,7 @@ GET '/questions'
 - Fetches a paginated dictionary of questions
 - Request Arguments: None
 - Response:
-
+```
 {
   "categories": {
     "1": "Science",
@@ -165,18 +165,23 @@ DELETE /questions/<question_id>
   "success": true,
   "total_questions": 40
 }
+```
 
 POST /questions Add a new question
 - Request body: {question:string, answer:string, difficulty:int, category:string}
 - Response:
+```
 {
   "created": 51,
   "success": true
 }
+```
 
 POST /questions/search
 - Request arguments: {searchTerm:string}
 - Response:
+
+```
 {
   "questions": [
     {
@@ -191,9 +196,13 @@ POST /questions/search
   "total_questions": 42
 }
 
+```
+
 GET /categories/<int:category_id>/questions
 - Request arguments: category_id:int
 - Response:
+
+```
 {
   "current_category": 5,
   "questions": [
@@ -208,10 +217,12 @@ GET /categories/<int:category_id>/questions
   "success": true,
   "total_questions": 42
 }
+```
 
 POST /quizzes
 - Request arguments : quiz_category and previous_questions
 - Response:
+```
 {
   "question": {
     "answer": "Mona Lisa",
@@ -221,6 +232,7 @@ POST /quizzes
     "question": "La Giaconda is better known as what?"
   }
 }
+```
 
 
 
