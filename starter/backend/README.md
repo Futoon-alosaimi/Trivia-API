@@ -168,7 +168,7 @@ DELETE /questions/<question_id>
   "total_questions": 40
 }
 ```
-```
+
 
 POST /questions Add a new question
 - Request body: {question:string, answer:string, difficulty:int, category:string}
